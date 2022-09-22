@@ -2,6 +2,7 @@
   "annotations": {
     "list": [
       {
+        "$$hashKey": "object:1421",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -359,6 +360,7 @@
       "targets": [
         {
           "expr": "sum(container_memory_usage_bytes{image!=\"\"})",
+          "hide": false,
           "interval": "10s",
           "intervalFactor": 2,
           "legendFormat": "",
@@ -574,14 +576,14 @@
         "y": 4
       },
       "hiddenSeries": false,
-      "id": 27,
+      "id": 33,
       "isNew": true,
       "legend": {
         "alignAsTable": true,
         "avg": true,
         "current": false,
         "max": true,
-        "min": true,
+        "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
@@ -621,10 +623,9 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(node_cpu_seconds_total[1m])) by (mode) * 100 / scalar(count(node_cpu_seconds_total{mode=\"user\"}))",
+          "expr": "avg without(cpu) (irate(node_cpu_seconds_total{job=\"nodeexporter\",instance=\"nodeexporter:9100\", mode!=\"idle\"}[1m]))",
           "interval": "",
-          "intervalFactor": 10,
-          "legendFormat": "{{ mode }}",
+          "legendFormat": "{{mode}}",
           "refId": "A"
         }
       ],
@@ -632,7 +633,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Host CPU Usage (cores)",
+      "title": "Host CPU Utilization %",
       "tooltip": {
         "msResolution": true,
         "shared": true,
@@ -649,7 +650,7 @@
       },
       "yaxes": [
         {
-          "format": "bytes",
+          "format": "percentunit",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -696,7 +697,7 @@
         "avg": true,
         "current": false,
         "max": true,
-        "min": true,
+        "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
@@ -768,7 +769,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Host Memory Usage (bytes)",
+      "title": "Host Memory Usage",
       "tooltip": {
         "msResolution": true,
         "shared": true,
@@ -820,130 +821,9 @@
       "grid": {},
       "gridPos": {
         "h": 7,
-        "w": 24,
+        "w": 12,
         "x": 0,
         "y": 10
-      },
-      "hiddenSeries": false,
-      "id": 31,
-      "isNew": true,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": true,
-        "rightSide": true,
-        "show": true,
-        "total": true,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "connected",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "container_memory_working_set_bytes{name=\"avocetodsconsumer\"}",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "A"
-        },
-        {
-          "expr": "container_memory_working_set_bytes{name=\"avoceteventworker\"}",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
-        },
-        {
-          "expr": "container_memory_working_set_bytes{name=\"avocet_cache\"}",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "C"
-        },
-        {
-          "expr": "container_memory_working_set_bytes{name=\"kafka\"}",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "D"
-        },
-        {
-          "expr": "container_memory_working_set_bytes{name=\"zookeeper\"}",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "E"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Container Storage Size (MiB)",
-      "tooltip": {
-        "msResolution": true,
-        "shared": true,
-        "sort": 2,
-        "value_type": "sum"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "bytes",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": 0,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": true,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "decimals": 2,
-      "editable": true,
-      "error": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "grid": {},
-      "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 17
       },
       "hiddenSeries": false,
       "id": 26,
@@ -953,7 +833,7 @@
         "avg": true,
         "current": false,
         "max": true,
-        "min": true,
+        "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
@@ -976,18 +856,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avoceteventconsumer:latest\"}[1m]))",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "A"
-        },
-        {
-          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avoceteventworker:latest\"}[1m]))",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "B"
-        },
-        {
           "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"}[1m]))",
           "interval": "",
           "legendFormat": "{{name}}",
@@ -998,6 +866,18 @@
           "interval": "",
           "legendFormat": "{{name}}",
           "refId": "D"
+        },
+        {
+          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avoceteventworker:latest\"}[1m]))",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        },
+        {
+          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avoceteventconsumer:latest\"}[1m]))",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "A"
         },
         {
           "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avocetodseventconsumer:latest\"}[1m]))",
@@ -1027,7 +907,7 @@
       },
       "yaxes": [
         {
-          "format": "percent",
+          "format": null,
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1062,9 +942,9 @@
       "grid": {},
       "gridPos": {
         "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 24
+        "w": 12,
+        "x": 12,
+        "y": 10
       },
       "hiddenSeries": false,
       "id": 8,
@@ -1074,7 +954,7 @@
         "avg": true,
         "current": false,
         "max": true,
-        "min": true,
+        "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
@@ -1097,6 +977,18 @@
       "steppedLine": false,
       "targets": [
         {
+          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
+          "interval": "",
+          "legendFormat": "{{ name }}",
+          "refId": "C"
+        },
+        {
+          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/redisalpine:7.0.4\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
+          "interval": "",
+          "legendFormat": "{{ name }}",
+          "refId": "D"
+        },
+        {
           "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avoceteventconsumer:latest\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
           "interval": "",
           "intervalFactor": 10,
@@ -1110,18 +1002,6 @@
           "interval": "",
           "legendFormat": "{{ name }}",
           "refId": "B"
-        },
-        {
-          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
-          "interval": "",
-          "legendFormat": "{{ name }}",
-          "refId": "C"
-        },
-        {
-          "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/redisalpine:7.0.4\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
-          "interval": "",
-          "legendFormat": "{{ name }}",
-          "refId": "D"
         },
         {
           "expr": "sum by (name) (rate(container_cpu_usage_seconds_total{image=\"avocetodsrepo.azurecr.io/avocetodseventconsumer:latest\"}[1m])) / scalar(count(node_cpu_seconds_total{mode=\"user\"})) * 100",
@@ -1173,6 +1053,325 @@
       }
     },
     {
+      "aliasColors": {
+        "192.168.200.241:9100_总内存": "dark-red",
+        "内存_Avaliable": "#6ED0E0",
+        "内存_Cached": "#EF843C",
+        "内存_Free": "#629E51",
+        "内存_Total": "#6d1f62",
+        "内存_Used": "#eab839",
+        "可用": "#9ac48a",
+        "总内存": "#bf1b00"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "decimals": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "height": "300",
+      "hiddenSeries": false,
+      "id": 37,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/.*_Total/",
+          "color": "#C4162A",
+          "fill": 0
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(container_memory_working_set_bytes{name!=\"\",name!=\"es01\",name!=\"cadvisor\",name!=\"grafana\",name!=\"nodeexporter\",name!=\"prometheus\",name!=\"name\"}) by (name)",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "E"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Container Current Memory Usage",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "Bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {
+        "192.168.200.241:9100_总内存": "dark-red",
+        "内存_Avaliable": "#6ED0E0",
+        "内存_Cached": "#EF843C",
+        "内存_Free": "#629E51",
+        "内存_Total": "#6d1f62",
+        "内存_Used": "#eab839",
+        "可用": "#9ac48a",
+        "总内存": "#bf1b00"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "decimals": 2,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "height": "300",
+      "hiddenSeries": false,
+      "id": 40,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "/.*_Total/",
+          "color": "#C4162A",
+          "fill": 0
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by (name)(container_fs_usage_bytes{name!=\"nodeexporter\",name!=\"\",name!=\"grafana\",name!~\"/dev/root_Available\",name!=\"cadvisor\",name!=\"nodeexportor\",name!=\"prometheus\"}) ",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "D"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Container Volume Space",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "Bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 24
+      },
+      "hiddenSeries": false,
+      "id": 35,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(container_cpu_cfs_throttled_seconds_total{name!=\"\"}[5m])) / sum(rate(container_cpu_cfs_periods_total{name!=\"\"}[5m])) by (name)",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        },
+        {
+          "expr": "(rate(container_cpu_cfs_throttled_seconds_total{name!=\"\"}[5m]))/ (rate(container_cpu_cfs_periods_total{name!=\"\"}[5m])) * 100",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        },
+        {
+          "expr": "rate((container_cpu_cfs_throttled_seconds_total/container_cpu_cfs_periods_total){5m})",
+          "hide": true,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "C"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "CPU throttled % - Exeeding Upper Limits",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "abc",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -1185,10 +1384,10 @@
       "fillGradient": 0,
       "grid": {},
       "gridPos": {
-        "h": 7,
-        "w": 24,
-        "x": 0,
-        "y": 31
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 24
       },
       "hiddenSeries": false,
       "id": 11,
@@ -1198,7 +1397,7 @@
         "avg": true,
         "current": false,
         "max": true,
-        "min": true,
+        "min": false,
         "rightSide": true,
         "show": true,
         "total": false,
@@ -1221,6 +1420,18 @@
       "steppedLine": false,
       "targets": [
         {
+          "expr": "sum by (name)(container_memory_usage_bytes{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"})",
+          "interval": "",
+          "legendFormat": "{{ name }}",
+          "refId": "C"
+        },
+        {
+          "expr": "sum by (name)(container_memory_usage_bytes{image=\"avocetodsrepo.azurecr.io/redisalpine:7.0.4\"})",
+          "interval": "",
+          "legendFormat": "{{ name }}",
+          "refId": "D"
+        },
+        {
           "expr": "sum by (name)(container_memory_usage_bytes{image=\"avocetodsrepo.azurecr.io/avoceteventconsumer:latest\"})",
           "interval": "",
           "intervalFactor": 1,
@@ -1236,18 +1447,6 @@
           "refId": "B"
         },
         {
-          "expr": "sum by (name)(container_memory_usage_bytes{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"})",
-          "interval": "",
-          "legendFormat": "{{ name }}",
-          "refId": "C"
-        },
-        {
-          "expr": "sum by (name)(container_memory_usage_bytes{image=\"avocetodsrepo.azurecr.io/redisalpine:7.0.4\"})",
-          "interval": "",
-          "legendFormat": "{{ name }}",
-          "refId": "D"
-        },
-        {
           "expr": "sum by (name)(container_memory_usage_bytes{image=\"avocetodsrepo.azurecr.io/avocetodseventconsumer:latest\"})",
           "interval": "",
           "legendFormat": "{{ name }}",
@@ -1258,7 +1457,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Container Memory Usage (bytes)",
+      "title": "Total Container Memory Usage",
       "tooltip": {
         "msResolution": true,
         "shared": true,
@@ -1301,6 +1500,184 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 30
+      },
+      "hiddenSeries": false,
+      "id": 38,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(container_memory_failcnt{name!=\"es01\",name!=\"cadvisor\",name!=\"grafana\",name!=\"nodeexporter\",name!=\"prometheus\"}[5m])) \r\nby (name)",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Memory Limits Hits (number)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "abc",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 30
+      },
+      "hiddenSeries": false,
+      "id": 39,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(rate(container_memory_failures_total{name!=\"es01\",name!=\"cadvisor\",name!=\"grafana\",name!=\"nodeexporter\",name!=\"prometheus\"}[5m])) \r\nby (name)",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Cumulative Count of Memory Allocation Failure",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "abc",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
       "datasource": "Prometheus",
       "decimals": 2,
       "editable": true,
@@ -1312,7 +1689,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 36
       },
       "hiddenSeries": false,
       "id": 12,
@@ -1345,6 +1722,18 @@
       "steppedLine": false,
       "targets": [
         {
+          "expr": "sum by (name) (container_memory_cache{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"})",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "C"
+        },
+        {
+          "expr": "sum by (name) (container_memory_cache{image=\"avocetodsrepo.azurecr.io/redisalpine:7.0.4\"})",
+          "interval": "",
+          "legendFormat": "{{name}}",
+          "refId": "D"
+        },
+        {
           "expr": "sum by (name) (container_memory_cache{image=\"avocetodsrepo.azurecr.io/avoceteventconsumer:latest\"})",
           "interval": "",
           "intervalFactor": 2,
@@ -1358,18 +1747,6 @@
           "interval": "",
           "legendFormat": "{{name}}",
           "refId": "B"
-        },
-        {
-          "expr": "sum by (name) (container_memory_cache{image=\"avocetodsrepo.azurecr.io/kafkaalpine:latest\"})",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "C"
-        },
-        {
-          "expr": "sum by (name) (container_memory_cache{image=\"avocetodsrepo.azurecr.io/redisalpine:7.0.4\"})",
-          "interval": "",
-          "legendFormat": "{{name}}",
-          "refId": "D"
         },
         {
           "expr": "sum by (name) (container_memory_cache{image=\"avocetodsrepo.azurecr.io/avocetodseventconsumer:latest\"})",
@@ -1436,7 +1813,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 43
       },
       "hiddenSeries": false,
       "id": 13,
@@ -1560,7 +1937,7 @@
         "h": 7,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 50
       },
       "hiddenSeries": false,
       "id": 14,
@@ -1684,7 +2061,7 @@
         "h": 4,
         "w": 8,
         "x": 0,
-        "y": 59
+        "y": 57
       },
       "hiddenSeries": false,
       "id": 9,
@@ -1781,7 +2158,7 @@
         "h": 4,
         "w": 8,
         "x": 8,
-        "y": 59
+        "y": 57
       },
       "hiddenSeries": false,
       "id": 10,
@@ -1883,7 +2260,7 @@
         "h": 4,
         "w": 8,
         "x": 16,
-        "y": 59
+        "y": 57
       },
       "hiddenSeries": false,
       "id": 15,
@@ -1997,9 +2374,105 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 1,
+        "y": 61
+      },
+      "hiddenSeries": false,
+      "id": 27,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true,
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pluginVersion": "7.2.0",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg without(cpu) (irate(node_cpu_seconds_total{job=\"nodeexporter\",instance=\"nodeexporter:9100\", mode!=\"idle\"}[1m]))",
+          "interval": "",
+          "legendFormat": "{{mode}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Host CPU Utilization %",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percentunit",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
-  "refresh": "",
+  "refresh": false,
   "schemaVersion": 22,
   "style": "dark",
   "tags": [
@@ -2009,8 +2482,8 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
-    "to": "now"
+    "from": "2022-09-20T15:02:00.000Z",
+    "to": "2022-09-20T15:13:00.000Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -2038,10 +2511,10 @@
     ]
   },
   "timezone": "browser",
-  "title": "Docker Containers New",
+  "title": "Docker Containers New 1",
   "uid": "gRdGvHiVz",
   "variables": {
     "list": []
   },
-  "version": 10
+  "version": 46
 }
